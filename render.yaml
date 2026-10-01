@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: india-property-tycoon
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false   # paste your Neon/Supabase connection string in the dashboard

@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ipt
+      POSTGRES_PASSWORD: ipt
+      POSTGRES_DB: ipt
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ipt"]
+      interval: 3s
+      retries: 20
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgres://ipt:ipt@db:5432/ipt
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  pgdata:
